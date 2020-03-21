@@ -99,7 +99,7 @@ def eulerstep(s, i, r, beta, gamma=0, alpha=0, mu=0, f=0, dt=0.001):
     if i1 < 0.5:
         i1 = 0
 
-    return np.ceil(np.array([s1, i1, r1]))
+    return s1, i1, r1
 
 
 def run(s0, i0, beta, r0=0, gamma=0, alpha=0, mu=0, f=0, dt=0.001, t=100):
@@ -122,8 +122,10 @@ def run(s0, i0, beta, r0=0, gamma=0, alpha=0, mu=0, f=0, dt=0.001, t=100):
         np.array: length t / dt, r at each timestep
     """
     def yield_steps():
-        for _ in np.arange(0, T, dt):
-            yield eulerstep(s0, i0, r0, beta, gamma, alpha, mu, f, dt)
+        s, i, r = s0, i0, r0
+        for _ in np.arange(0, t, dt):
+            s, i, r = eulerstep(s, i, r, beta, gamma, alpha, mu, f, dt)
+            yield(s, i, r)
 
 
     result = np.array(list(yield_steps())).T
