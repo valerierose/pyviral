@@ -127,6 +127,5 @@ def run(s0, i0, beta, r0=0, gamma=0, alpha=0, mu=0, f=0, dt=0.001, t=100):
             s, i, r = eulerstep(s, i, r, beta, gamma, alpha, mu, f, dt)
             yield(s, i, r)
 
-
     result = np.round(np.array(list(yield_steps())).T)
     return result[0], result[1], result[2]
